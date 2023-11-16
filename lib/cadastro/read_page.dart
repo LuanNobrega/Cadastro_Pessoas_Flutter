@@ -19,32 +19,42 @@ class ReadPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final record = records[index];
                 return ListTile(
+                  trailing: SizedBox(
+                    width: 300,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/insert',
+                                arguments: {'id': record.id});
+                          },
+                          child: Text("Editar"),
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            final recordProvider = Provider.of<RecordProvider>(
+                                context,
+                                listen: false);
+                            recordProvider.deleteRecord(record);
+                          },
+                          child: Text("Deletar"),
+                        ),
+                      ],
+                    ),
+                  ),
                   title: Text('Nome: ${record.name}'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Text('Id: ${record.id}'),
                       Text('Idade: ${record.age}'),
                       Text('Sexo: ${record.gender}'),
                       Text('Email: ${record.email}'),
                       Text('Profissão: ${record.profession}'),
                       Text('Naturalidade: ${record.city}'),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          _editRecord(context, record);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _deleteRecord(context, index);
-                        },
-                      ),
                     ],
                   ),
                 );
@@ -71,21 +81,6 @@ class ReadPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  void _editRecord(BuildContext context, Record record) {
-    // Navegue para a página de edição e passe o registro a ser editado.
-    Navigator.pushNamed(context, '/insert', arguments: record);
-  }
-
-  void _deleteRecord(BuildContext context, int index) {
-    final recordProvider = Provider.of<RecordProvider>(context, listen: false);
-    recordProvider.deleteRecord(index);
-
-    // Opcional: Exibir um SnackBar ou uma mensagem de sucesso
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Registro excluído com sucesso!')),
     );
   }
 }

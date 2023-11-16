@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Record {
+  final String? id;
   final String name;
   final int age;
   final String gender;
@@ -9,6 +10,7 @@ class Record {
   final String city;
 
   Record({
+    this.id,
     required this.name,
     required this.age,
     required this.gender,
@@ -26,17 +28,14 @@ class RecordProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteRecord(int index) {
-    if (index >= 0 && index < records.length) {
-      records.removeAt(index);
-      notifyListeners();
-    }
+  void updateRecord(Record record) {
+    records.removeWhere((e) => e.id == record.id);
+    records.add(record);
+    notifyListeners();
   }
 
-  void editRecord(int index, Record newRecord) {
-    if (index >= 0 && index < records.length) {
-      records[index] = newRecord;
-      notifyListeners();
-    }
+  void deleteRecord(Record record) {
+    records.removeWhere((e) => e.id == record.id);
+    notifyListeners();
   }
 }
