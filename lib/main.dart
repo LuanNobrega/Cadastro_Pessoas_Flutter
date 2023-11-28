@@ -10,7 +10,6 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => RecordProvider(),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
         initialRoute: '/home',
         routes: {
           '/home': (context) => HomePage(),
