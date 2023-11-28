@@ -3,6 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'record_provider.dart';
 import 'package:provider/provider.dart';
 
+/*
+Fornece uma interface simples com dois botões que permitem navegar 
+para outras partes do aplicativo: um para inserir registros e outro 
+para visualizar registros salvos. A navegação é realizada utilizando 
+o Navigator do Flutter.
+*/
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -3,8 +3,8 @@ import 'record_provider.dart';
 import 'package:provider/provider.dart';
 
 class InsertPage extends StatefulWidget {
-  final Record?
-      recordToEdit; // Novo parâmetro para receber o registro a ser editado
+  final Record? recordToEdit;
+
   InsertPage({this.recordToEdit});
 
   @override
@@ -140,6 +140,10 @@ class _InsertPageState extends State<InsertPage> {
     nameController.clear();
     ageController.clear();
     selectedGender = null;
+    // Desmarque os botões de rádio manualmente
+    setState(() {
+      selectedGender = null;
+    });
     emailController.clear();
     professionController.clear();
     cityController.clear();
@@ -161,23 +165,40 @@ class _InsertPageState extends State<InsertPage> {
         city.isNotEmpty) {
       final recordProvider =
           Provider.of<RecordProvider>(context, listen: false);
-      recordProvider.addRecord(Record(
-        name: name,
-        age: int.parse(age),
-        gender: selectedGender!,
-        email: email,
-        profession: profession,
-        city: city,
-      ));
+
+      if (widget.recordToEdit != null) {
+        // Se houver um registro para editar, chame o método editRecord
+        final editedRecord = Record(
+          name: name,
+          age: int.parse(age),
+          gender: selectedGender!,
+          email: email,
+          profession: profession,
+          city: city,
+        );
+
+        recordProvider.editRecord(
+            recordProvider.records.indexOf(widget.recordToEdit!), editedRecord);
+      } else {
+        // Caso contrário, adicione um novo registro
+        recordProvider.addRecord(Record(
+          name: name,
+          age: int.parse(age),
+          gender: selectedGender!,
+          email: email,
+          profession: profession,
+          city: city,
+        ));
+      }
 
       clearFields();
 
-      // Opcional: Exibir um SnackBar ou uma mensagem de sucesso
+      // Exibir um SnackBar ou uma mensagem de sucesso
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Registro inserido com sucesso!')));
       Navigator.pushNamed(context, '/read');
     } else {
-      // Opcional: Exibir uma mensagem de erro
+      // Exibir uma mensagem de erro
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Preencha todos os campos obrigatórios e certifique-se de que a idade seja um número inteiro.')));

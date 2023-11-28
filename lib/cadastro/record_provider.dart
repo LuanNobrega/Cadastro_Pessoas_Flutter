@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+/*
+A classe RecordProvider no arquivo record_provider.dart é
+uma classe que estende ChangeNotifier e é usada para
+gerenciar o estado dos registros em um aplicativo Flutter.
+*/
+
 class Record {
   final String name;
   final int age;

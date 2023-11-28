@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'record_provider.dart';
 import 'package:provider/provider.dart';
+import 'insert_page.dart';
+
+/*
+É responsável por exibir os registros salvos em uma lista, 
+permitindo a visualização, edição e exclusão dos registros. 
+*/
 
 class ReadPage extends StatelessWidget {
   @override
@@ -75,15 +81,18 @@ class ReadPage extends StatelessWidget {
   }
 
   void _editRecord(BuildContext context, Record record) {
-    // Navegue para a página de edição e passe o registro a ser editado.
-    Navigator.pushNamed(context, '/insert', arguments: record);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InsertPage(recordToEdit: record),
+      ),
+    );
   }
 
   void _deleteRecord(BuildContext context, int index) {
     final recordProvider = Provider.of<RecordProvider>(context, listen: false);
     recordProvider.deleteRecord(index);
-
-    // Opcional: Exibir um SnackBar ou uma mensagem de sucesso
+    //Exibir um SnackBar ou uma mensagem de sucesso
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Registro excluído com sucesso!')),
     );
